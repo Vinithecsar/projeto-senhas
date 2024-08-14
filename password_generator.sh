@@ -21,29 +21,17 @@ USE_SYMBOLS=false
 # Parsear argumentos
 while getopts "l:udsh" opt; do
   case ${opt} in
-    l )
-      LENGTH=$OPTARG
-      ;;
-    u )
-      USE_UPPERCASE=true
-      ;;
-    d )
-      USE_DIGITS=true
-      ;;
-    s )
-      USE_SYMBOLS=true
-      ;;
-    h )
-      show_help
-      ;;
-    \? )
+    l) LENGTH=$OPTARG ;;
+    u) USE_UPPERCASE=true ;;
+    d) USE_DIGITS=true ;;
+    s) USE_SYMBOLS=true;;
+    h) show_help;;
+    \?)
       echo "Opção inválida: -$OPTARG" 1>&2
-      show_help
-      ;;
-    : )
+      show_help;;
+    :)
       echo "Opção -$OPTARG requer um argumento." 1>&2
-      show_help
-      ;;
+      show_help ;;
   esac
 done
 
@@ -66,12 +54,6 @@ if [ "$USE_SYMBOLS" = true ]; then
   CHARS+=$SYMBOLS
 fi
 
-# Verificar se há caracteres disponíveis
-if [ -z "$CHARS" ]; then
-  echo "Erro: Nenhum conjunto de caracteres selecionado." 1>&2
-  exit 1
-fi
-
 # Gerar a senha
 PASSWORD=$(tr -dc "$CHARS" </dev/urandom | head -c "$LENGTH")
 
@@ -79,4 +61,4 @@ PASSWORD=$(tr -dc "$CHARS" </dev/urandom | head -c "$LENGTH")
 echo "Senha gerada: $PASSWORD"
 
 # Opcional: salvar a senha em um arquivo criptografado
-echo "$PASSWORD" | openssl enc -aes-256-cbc -salt -out password.txt.enc -pass pass:senha-secreta
+# echo "$PASSWORD" | openssl enc -aes-256-cbc -salt -out password.txt.enc -pass pass:senha-secreta
