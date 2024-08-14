@@ -1,6 +1,6 @@
 # 🔐 Password Generator
 
-Bem-vindo ao `password-generator`! Este script em Bash permite gerar senhas seguras com várias opções configuráveis, como comprimento, inclusão de letras maiúsculas, números e símbolos. Também permite salvar em um arquivo, dar nomes e listar
+Bem-vindo ao `password-generator`! Este script em Bash permite gerar senhas seguras com várias opções configuráveis, como comprimento, inclusão de letras maiúsculas, números e símbolos. Também permite salvar em um arquivo, dar nomes e listar senhas.
 
 ## para Linux🐧 (por Bruno Ramon e Glauco Paiva)
 
