@@ -12,8 +12,7 @@ Execute o script com as opções desejadas:
 
 ```bash
 ./password-generator.sh
--l [COMPRIMENTO]: Define o comprimento da senha. Padrão: 8 caracteres.
--l [COMPRIMENTO] : comprimento da senha
+-l [COMPRIMENTO] : Define o comprimento da senha. Padrão: 8 caracteres.
 -u               : Inclui letras maiúsculas
 -d               : Inclui números
 -s               : Inclui símbolos
