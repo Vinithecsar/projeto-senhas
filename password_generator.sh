@@ -5,11 +5,32 @@ function show_help() {
   echo "Uso: ./password-generator.sh [OPÇÕES]"
   echo "Opções:"
   echo "  -l [COMPRIMENTO] : comprimento da senha"
-  echo "  -u               : incluir letras maiúsculas"
-  echo "  -d               : incluir números"
-  echo "  -s               : incluir símbolos"
-  echo "  -h               : exibir essa mensagem de ajuda"
+  echo "  -u               : Inclui letras maiúsculas"
+  echo "  -d               : Inclui números"
+  echo "  -s               : Inclui símbolos"
+  echo "  -h               : Exibe essa mensagem de ajuda"
+  echo "  -o               : Salva a senha gerada em um arquivo"
+  echo "  -n NAME          : Adiciona um nome a senha gerada"
+  echo "  -p               : Exibe senhas geradas"
   exit 0
+}
+
+function list_passwords() {
+  echo "Lista de senhas:"
+  cat ./password_list.txt
+}
+
+function save_password() {
+  NAME_AND_PASSWORD=$PASSWORD
+
+  if [ "$USE_NAME" = true ]; then
+    NAME_AND_PASSWORD="$NAME $PASSWORD"
+  fi
+
+  #verifica se tem que salvar a senha em um arquivo, senão somente lista.
+  #salvar em password_list.txt
+
+  echo "$NAME_AND_PASSWORD"
 }
 
 # Definir variáveis padrão
@@ -17,6 +38,10 @@ LENGTH=8
 USE_UPPERCASE=false
 USE_DIGITS=false
 USE_SYMBOLS=false
+
+SAVE_IN_FILE=false
+USE_NAME=false
+NAME=""
 
 # Parsear argumentos
 while getopts "l:udsh" opt; do
@@ -26,6 +51,11 @@ while getopts "l:udsh" opt; do
     d) USE_DIGITS=true ;;
     s) USE_SYMBOLS=true;;
     h) show_help;;
+    o) SAVE_IN_FILE=true;;
+    n) 
+      USE_NAME=true
+      NAME=$OPTARG;;
+    p) list_passwords;;
     \?)
       echo "Opção inválida: -$OPTARG" 1>&2
       show_help;;
@@ -57,8 +87,7 @@ fi
 # Gerar a senha
 PASSWORD=$(tr -dc "$CHARS" </dev/urandom | head -c "$LENGTH")
 
-# Exibir a senha gerada
-echo "Senha gerada: $PASSWORD"
+save_password
 
 # Opcional: salvar a senha em um arquivo criptografado
 # echo "$PASSWORD" | openssl enc -aes-256-cbc -salt -out password.txt.enc -pass pass:senha-secreta
