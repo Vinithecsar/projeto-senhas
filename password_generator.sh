@@ -97,6 +97,3 @@ fi
 PASSWORD=$(tr -dc "$CHARS" </dev/urandom | head -c "$LENGTH")
 
 save_password
-
-# Opcional: salvar a senha em um arquivo criptografado
-# echo "$PASSWORD" | openssl enc -aes-256-cbc -salt -out password.txt.enc -pass pass:senha-secreta
