@@ -18,6 +18,7 @@ function show_help() {
 function list_passwords() {
   echo "Lista de senhas:"
   cat ./password_list.txt
+  exit 0
 }
 
 function save_password() {
@@ -27,10 +28,18 @@ function save_password() {
     NAME_AND_PASSWORD="$NAME $PASSWORD"
   fi
 
-  #verifica se tem que salvar a senha em um arquivo, senão somente lista.
-  #salvar em password_list.txt
-
-  echo "$NAME_AND_PASSWORD"
+  
+  if [ ! -e "password_list.txt" ] && $SAVE_IN_FILE; then
+    touch "password_list.txt"  
+  fi
+  
+  if [ "$SAVE_IN_FILE" = true ]; then
+    echo "$NAME_AND_PASSWORD" >> "password_list.txt"
+    echo "$NAME_AND_PASSWORD"
+    echo "Senha salva em password_list.txt"
+  else
+    echo "$NAME_AND_PASSWORD"
+  fi   
 }
 
 # Definir variáveis padrão
@@ -44,7 +53,7 @@ USE_NAME=false
 NAME=""
 
 # Parsear argumentos
-while getopts "l:udsh" opt; do
+while getopts "l:udshon:p" opt; do
   case ${opt} in
     l) LENGTH=$OPTARG ;;
     u) USE_UPPERCASE=true ;;
@@ -55,7 +64,7 @@ while getopts "l:udsh" opt; do
     n) 
       USE_NAME=true
       NAME=$OPTARG;;
-    p) list_passwords;;
+    p) list_passwords ;; 
     \?)
       echo "Opção inválida: -$OPTARG" 1>&2
       show_help;;
